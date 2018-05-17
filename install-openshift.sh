@@ -94,8 +94,8 @@ if [ "$memory" -lt "8388608" ]; then
 	export LOGGING="False"
 fi
 
-curl -o inventory.download $SCRIPT_REPO/inventory.ini
-envsubst < inventory.download > inventory.ini
+# curl -o inventory.download $SCRIPT_REPO/inventory.ini
+# envsubst < inventory.download > inventory.ini
 ansible-playbook -i inventory.ini openshift-ansible/playbooks/prerequisites.yml
 ansible-playbook -i inventory.ini openshift-ansible/playbooks/deploy_cluster.yml
 
