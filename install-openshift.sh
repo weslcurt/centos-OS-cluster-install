@@ -49,12 +49,12 @@ yum -y --enablerepo=epel install ansible pyOpenSSL
 
 cd openshift-ansible && git fetch && git checkout release-3.9 && cd ..
 
-cat <<EOD > /etc/hosts
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-${IP}		$(hostname) console console.${DOMAIN}  
-EOD
-
+#cat <<EOD > /etc/hosts
+#127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4 
+#::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+#${IP}		$(hostname) console console.${DOMAIN}  
+#EOD
+#this got me further but still not there
 if [ -z $DISK ]; then 
 	echo "Not setting the Docker storage."
 else
