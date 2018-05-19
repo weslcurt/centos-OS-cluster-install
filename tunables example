@@ -1,0 +1,72 @@
+Skip to content
+
+Search…
+All gists
+GitHub
+New gist
+6
+3 @sjenningsjenning/origin-gce-hosts.md
+Created 2 years ago • 
+ 
+<script src="https://gist.github.com/sjenning/cdd6ec1f2ab357fd8bfe2cb64b548fbe.js"></script>
+  
+ Code  Revisions 2  Stars 6  Forks 3
+GCE openshift-ansible inventory
+ origin-gce-hosts.md
+[OSEv3:children]
+masters
+nodes
+
+[OSEv3:vars]
+ansible_ssh_user=sjennings
+ansible_become=yes
+
+deployment_type=origin
+openshift_release=v1.3.1
+containerized=true
+openshift_install_examples=true
+
+# use htpasswd authentication with demo/demo
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+openshift_master_htpasswd_users={'demo': '$apr1$.MaA77kd$Rlnn6RXq9kCjnEfh5I3w/.'}
+
+# put the router on dedicated infra node
+openshift_hosted_router_selector='region=infra'
+openshift_master_default_subdomain=origin.sjennings.me
+
+# put the image registry on dedicated infra node
+openshift_hosted_registry_selector='region=infra'
+
+# project pods should be placed on primary nodes
+osm_default_node_selector='region=primary'
+
+[masters]
+master.sjennings.me openshift_public_hostname="master.sjennings.me"
+
+[nodes]
+# master needs to be included in the node to be configured in the SDN
+master.sjennings.me
+infra.sjennings.me openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+node1.sjennings.me openshift_node_labels="{'region': 'primary', 'zone': 'default'}"
+node2.sjennings.me openshift_node_labels="{'region': 'primary', 'zone': 'default'}"
+ @weslcurt
+ 
+            
+ 
+ 
+
+Leave a comment
+Attach files by dragging & dropping, , or pasting from the clipboard.  Styling with Markdown is supported
+© 2018 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+API
+Training
+Shop
+Blog
+About
+Press h to open a hovercard with more details.
